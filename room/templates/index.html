@@ -1,23 +1,65 @@
 {% include 'navigation.html' %}
 {% load static %}
-<style>
-    .abc{
-        height: 500px;
-        margin-top: 10px;
-        background-image: url("{% static 'images/b2.jpg' %}");
-        background-size: 100% 100%;
-        animation: abcd 20s infinite;
-    }
-    @keyframes abcd {
-        20% { background-image: url("{% static 'images/b3.jpg' %}"); }
-        40% { background-image: url("{% static 'images/b1.jpg' %}"); }
-        60% { background-image: url("{% static 'images/b4.jpg' %}"); }
-        80% { background-image: url("{% static 'images/b5.jpg' %}"); }
-        100% { background-image: url("{% static 'images/b6.jpg' %}"); }
-    }
-</style>
-<div class="container-fluid abc"></div>
 
+<!-- Ticker Bar -->
+<div class="ticker-bar text-center">
+    <div class="container">
+        <marquee scrollamount="6" behavior="scroll" direction="left">
+            <span class="text-warning me-4"><i class="fa-solid fa-bullhorn me-2"></i> Welcome to Monument & Architecture Travel Guide!</span>
+            <span class="text-white me-4">Explore ancient heritage, historic marvels, and reserve entry passes online.</span>
+            <span class="text-yellow me-4">24/7 Concierge Support & Safe Visitor Guidelines.</span>
+        </marquee>
+    </div>
+</div>
+
+<!-- Image Carousel Slider -->
+<div class="slider-container">
+    <img src="{% static 'images/b2.jpg' %}" class="slider-img active" alt="Monument 1">
+    <img src="{% static 'images/b3.jpg' %}" class="slider-img" alt="Monument 2">
+    <img src="{% static 'images/b1.jpg' %}" class="slider-img" alt="Monument 3">
+    <img src="{% static 'images/b4.jpg' %}" class="slider-img" alt="Monument 4">
+    <img src="{% static 'images/b5.jpg' %}" class="slider-img" alt="Monument 5">
+    <img src="{% static 'images/b6.jpg' %}" class="slider-img" alt="Monument 6">
+
+    <div class="slider-caption">
+        <h2>Explore Historic Wonders & Architecture</h2>
+        <p>Discover heritage monuments, check entry ticket prices, and reserve passes effortlessly.</p>
+    </div>
+</div>
+
+<!-- Search & Content Section -->
+<div class="container py-4">
+    <div class="search-container">
+        <h3 class="fw-bold text-center mb-3 text-dark"><i class="fa-solid fa-magnifying-glass text-info me-2"></i> Find Your Travel Destination</h3>
+        <form action="{% url 'search' %}" method="get" class="row g-3">
+            <div class="col-md-5">
+                <input type="text" name="query" class="form-control form-control-custom" placeholder="Search by Monument Name or Location..." required>
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="location" class="form-control form-control-custom" placeholder="State or Region (Optional)">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-yellow w-100 py-2 fs-6">
+                    <i class="fa-solid fa-search me-1"></i> Search Places
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Script for Image Carousel Slider -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let slides = document.querySelectorAll('.slider-img');
+        let currentSlide = 0;
+        if(slides.length > 0) {
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 4000);
+        }
+    });
+</script>
 
 {% include 'footer.html' %}
-<a name="down"></a>

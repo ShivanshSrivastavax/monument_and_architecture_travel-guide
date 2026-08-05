@@ -1,90 +1,95 @@
+{% include 'admin_navigation.html' %}
 {% load static %}
 
-{% include 'admin_navigation.html' %}
+<div class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="auth-card">
+                    <div class="text-center mb-4">
+                        <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill fw-bold mb-2">Admin Management</span>
+                        <h2 class="fw-bold text-dark mb-1">Edit Monument Details</h2>
+                        <p class="text-muted small">Update information for <strong>{{data.p_name}}</strong></p>
+                    </div>
 
-<marquee behavior="alternate" style="font-family: 'Monotype Corsiva'; font-size:25px; color:darkcyan; background-color:black; font-weight:bold; margin-top:1%">
-    Edit Monument Detail
-</marquee>
-<hr>
-<form class="container mt-5" onsubmit="return checkpass();" name="signup" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-    <div class="row">
-        <div class="form-group col-md-6" >
-            <label>Place Name:</label>
-            <input type="text" class="form-control" name="pname" placeholder="Enter Name of Place" value="{{data.p_name}}" required>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Monument Name</label>
+                                <input type="text" class="form-control form-control-travel" name="pname" value="{{data.p_name}}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">State / Province</label>
+                                <input type="text" class="form-control form-control-travel" name="pstate" value="{{data.p_state}}" required>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">City / Location</label>
+                                <input type="text" class="form-control form-control-travel" name="pcity" value="{{data.p_city}}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Ticket Price (₹/person)</label>
+                                <input type="number" class="form-control form-control-travel" name="tprice" value="{{data.t_price}}" required>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Availability Status</label>
+                                <select class="form-select form-control-travel" name="status">
+                                    <option value="Available" {% if data.status == "Available" %}selected{% endif %}>Available</option>
+                                    <option value="Not Available" {% if data.status == "Not Available" %}selected{% endif %}>Not Available</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Current Image & Update</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    {% if data.image %}
+                                    <img src="{{data.image.url}}" alt="{{data.p_name}}" width="55" height="45" class="rounded border object-fit-cover">
+                                    {% endif %}
+                                    <input type="file" class="form-control form-control-travel flex-grow-1" name="image" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-dark fw-semibold small">Included Activities / Highlights</label>
+                            <input type="text" class="form-control form-control-travel" name="activity" value="{{data.activity}}" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-dark fw-semibold small">History & Architectural Background</label>
+                            <textarea class="form-control form-control-travel" rows="4" name="phistory" required>{{data.history}}</textarea>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-travel-primary w-100 py-3 fs-6">
+                                <i class="fa-solid fa-pen-to-square me-2"></i> Update Monument
+                            </button>
+                            <a href="{% url 'view_room_admin' %}" class="btn btn-travel-outline py-3 px-4">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="form-group col-md-6" >
-            <label>Place State:</label>
-            <input type="text" class="form-control" name="pstate" placeholder="Enter State of Place" value="{{data.p_state}}" required>
-        </div>
-
     </div>
-
-    <div class="row">
-        <div class="form-group col-md-6" >
-            <label>City(Location of place):</label>
-            <input type="text" class="form-control" name="pcity" placeholder="Location of place" value="{{data.p_city}}" required>
-        </div>
-        <div class="form-group col-md-6" >
-            <label>Ticket Price:</label>
-            <input type="text" class="form-control" name="tprice" placeholder="Price of Ticket per person" value="{{data.t_price}}" required>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group col-md-6" >
-            <label>Ticket Status:</label>
-            {% if data.status == "Available" %}
-            <select class="form-control" name="status">
-                <option value="Available" selected>Available</option>
-                <option value="Not Available">Not Available</option>
-            </select>
-            {% endif %}
-            {% if data.status == "Not Available" %}
-            <select class="form-control" name="status">
-                <option value="Available">Available</option>
-                <option value="Not Available" selected>Not Available</option>
-            </select>
-            {% endif %}
-
-        </div>
-        <div class="form-group col-md-2" >
-            <img src="{{data.image.url}}" height="80" width="180">
-        </div>
-        <div class="form-group col-md-4" >
-            <label>Upload Image:</label>
-            <input type="file" class="form-control" name="image">
-        </div>
-
-    <div class="row">
-        <div class="form-group col-md-12" >
-            <label>Include Additional Activities:</label>
-            <input type="text" class="form-control" name="activity" value="{{data.activity}}" placeholder="Write all Additional activities here..." required>
-        </div>
-        </div>
-        <div class="row">
-        <div class="form-group col-md-12" >
-            <label>History of Place:</label>
-            <textarea class="form-control" style="resize:none;" name="phistory" placeholder="History of place" required>{{data.history}}</textarea>
-        </div>
-        </div>
-
-    </div>
-<center>
-    <input type="submit" value="Update" class="btn btn-primary my-3" style="width:250px">
-</center>
-</form>
+</div>
 
 {% if error == "no" %}
 <script>
-    alert("Monument Detail Updated Successfully")
-    window.location = ('{% url 'view_room_admin' %}')
+    alert("Monument Details Updated Successfully!");
+    window.location = ('{% url 'view_room_admin' %}');
 </script>
 {% endif %}
 
 {% if error == "yes" %}
 <script>
-    alert("Something Wrong, Try Again...")
+    alert("Something went wrong. Please try again.");
 </script>
 {% endif %}
+
+{% include 'footer.html' %}

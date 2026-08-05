@@ -1,80 +1,90 @@
 {% include 'admin_navigation.html' %}
+{% load static %}
 
-<marquee behavior="alternate" style="font-family: 'Monotype Corsiva'; font-size:25px; color:darkcyan; background-color:black; font-weight:bold; margin-top:1%">
-    Add New Monument
-</marquee>
-<hr>
-<form class="container mt-5" onsubmit="return checkpass();" name="signup" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+<div class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="auth-card">
+                    <div class="text-center mb-4">
+                        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-2">Admin Form</span>
+                        <h2 class="fw-bold text-dark mb-1">Add New Monument</h2>
+                        <p class="text-muted small">Publish a new historical architectural destination</p>
+                    </div>
 
-    <div class="row">
-        <div class="form-group col-md-6" >
-            <label>Place Name:</label>
-            <input type="text" class="form-control" name="pname" placeholder="Enter Name of Place" required>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Place / Monument Name</label>
+                                <input type="text" class="form-control form-control-travel" name="pname" placeholder="e.g. Taj Mahal" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">State / Province</label>
+                                <input type="text" class="form-control form-control-travel" name="pstate" placeholder="e.g. Uttar Pradesh" required>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">City / Location</label>
+                                <input type="text" class="form-control form-control-travel" name="pcity" placeholder="e.g. Agra" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Ticket Price (₹/person)</label>
+                                <input type="number" class="form-control form-control-travel" name="tprice" placeholder="e.g. 250" required>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Availability Status</label>
+                                <select class="form-select form-control-travel" name="status">
+                                    <option value="Available" selected>Available</option>
+                                    <option value="Not Available">Not Available</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Cover Image</label>
+                                <input type="file" class="form-control form-control-travel" name="image" accept="image/*" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-dark fw-semibold small">Included Activities / Highlights</label>
+                            <input type="text" class="form-control form-control-travel" name="activity" placeholder="e.g. Guided tour, Museum entry, Photography pass..." required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-dark fw-semibold small">History & Architectural Background</label>
+                            <textarea class="form-control form-control-travel" rows="4" name="phistory" placeholder="Provide detailed historical background..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-cyan w-100 py-3 fs-6">
+                            <i class="fa-solid fa-plus-circle me-2"></i> Publish Monument
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="form-group col-md-6" >
-            <label>Place State:</label>
-            <input type="text" class="form-control" name="pstate" placeholder="Enter State of Place" required>
-        </div>
-
     </div>
-
-    <div class="row">
-        <div class="form-group col-md-6" >
-            <label>City(Location of place):</label>
-            <input type="text" class="form-control" name="pcity" placeholder="Location of place" required>
-        </div>
-        <div class="form-group col-md-6" >
-            <label>Ticket Price:</label>
-            <input type="text" class="form-control" name="tprice" placeholder="Price of Ticket per person" required>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group col-md-6" >
-            <label>Ticket Status:</label>
-            <select class="form-control" name="status">
-                <option value="Available">Available</option>
-                <option value="Not Available">Not Available</option>
-            </select>
-
-        </div>
-        <div class="form-group col-md-6" >
-            <label>Upload Image:</label>
-            <input type="file" class="form-control" name="image" required>
-        </div>
-
-    <div class="row">
-        <div class="form-group col-md-12" >
-            <label>Include Additional Activities:</label>
-            <input type="text" class="form-control" name="activity" placeholder="Write all Additional activities here..." required>
-        </div>
-        </div>
-        <div class="row">
-        <div class="form-group col-md-12" >
-            <label>History of Place:</label>
-            <textarea class="form-control" style="resize:none;" name="phistory" placeholder="History of place" required></textarea>
-        </div>
-        </div>
-
-    </div>
-<center>
-    <input type="submit" value="Submit" class="btn btn-primary my-3" style="width:250px">
-</center>
-</form>
+</div>
 
 {% if error == "no" %}
 <script>
-    alert("New Monument Added Successfully")
-    window.location = "{% url 'add_room' %}";
+    document.addEventListener("DOMContentLoaded", function() {
+        showToast("New Monument Added Successfully!", "success", "{% url 'add_room' %}");
+    });
 </script>
 {% endif %}
 
 {% if error == "yes" %}
 <script>
-    alert("Something Wrong, Try Again...")
+    document.addEventListener("DOMContentLoaded", function() {
+        showToast("Something went wrong. Please try again.", "error");
+    });
 </script>
 {% endif %}
-
 
 {% include 'footer.html' %}

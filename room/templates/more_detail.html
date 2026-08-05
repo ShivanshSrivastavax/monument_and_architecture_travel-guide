@@ -1,49 +1,48 @@
-<!DOCTYPE html>
 {% include 'user_navigation.html' %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        .lb1{
-        font-weight:bold;
-        font-size:20px;
-        color:gray;
-        text-decoration:underline;
-        font-style:italic;
-        }
-        .lb2{
-        font-weight:bold;
-        font-size:20px;
-        color:blue;
-        }
-        .lb3{
-        font-weight:bold;
-        font-size:20px;
-        color:sky;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-   <div class="row" style="width:100%;">
-    <div class="mt-2" style="border:2px solid blue;border-radius:30px;min-height:400px;max-height:1500px;padding:20px;">
-        <label for="" class="lb1">Place Name:</label><label class="lb2" for="">&nbsp; {{data.p_name}} {{data.p_city}}, {{data.p_state}}</label>
-        <div style="float:right;margin-right:170px;" class="col-4">
-            <img src="{{data.image.url}}" alt="" height="300" width="500" style="border-radius:25%;">
+{% load static %}
+
+<div class="py-5 bg-light">
+    <div class="container">
+        <div class="bg-white rounded-4 shadow-lg overflow-hidden border border-light">
+            <div class="row g-0">
+                <div class="col-lg-6">
+                    <div class="h-100 min-vh-40 position-relative">
+                        <img src="{{data.image.url}}" alt="{{data.p_name}}" class="w-100 h-100 object-fit-cover">
+                        <div class="badge-location m-3 fs-6">
+                            <i class="fa-solid fa-location-dot me-1 text-info"></i> {{data.p_city}}, {{data.p_state}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-5 d-flex flex-column justify-content-between">
+                    <div>
+                        <span class="badge bg-info bg-opacity-10 text-info px-3 py-2 rounded-pill fw-bold mb-3">Monument Details</span>
+                        <h2 class="fw-bold display-6 text-dark mb-2">{{data.p_name}}</h2>
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <span class="price-tag fs-3">₹{{data.t_price}} <small class="fs-6 text-muted fw-normal">/person</small></span>
+                            <span class="badge bg-success px-3 py-2 rounded-pill fw-bold">{{data.status}}</span>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="fw-bold text-dark mb-2"><i class="fa-solid fa-star text-warning me-2"></i> Included Activities</h5>
+                            <p class="text-muted leading-relaxed">{{data.activity}}</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="fw-bold text-dark mb-2"><i class="fa-solid fa-landmark text-info me-2"></i> History & Architecture</h5>
+                            <p class="text-muted leading-relaxed" style="white-space: pre-line;">{{data.history}}</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-top d-flex gap-3">
+                        <a href="{% url 'view_room_user' %}" class="btn btn-travel-outline py-3 px-4"><i class="fa-solid fa-arrow-left me-2"></i> Back to Destinations</a>
+                        {% if data.status == "Available" %}
+                        <a href="{% url 'book_room' data.id %}" class="btn btn-travel-primary py-3 px-4 flex-grow-1 text-center"><i class="fa-solid fa-calendar-check me-2"></i> Book Ticket Now</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
-        <br>
-        <label for="" class="lb1">Extra Activities: </label><label for="" class="lb2">&nbsp; {{data.activity}}</label>
-        <br>
-        <label for="" class="lb1">History Of Place:</label>
-        <div class="col-6">
-            <label for="" class="lb3"><font face="mv boli">&nbsp;{{data.history}}</font></label>
-        </div>
-    <center>
-        <a href="{% url 'view_room_user' %}" class="btn btn-primary mt-4" style="width:200px;">Back</a>
-    </center>
-    </div>
     </div>
 </div>
-</body>
-</html>
+
+{% include 'footer.html' %}

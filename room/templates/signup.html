@@ -1,106 +1,117 @@
 {% include 'navigation.html' %}
+{% load static %}
 
 <script>
-    function checkpass()
-    {
-    if(document.signup.pwd.value!=document.signup.cpwd.value)
-     {
-     alert('Password Does Not Match')
-     document.signup.cpwd.focus();
-     return false;
-     }
-     return true;
+    function checkpass() {
+        if(document.signup.pwd.value != document.signup.cpwd.value) {
+            showToast('Passwords do not match!', 'error');
+            document.signup.cpwd.focus();
+            return false;
+        }
+        return true;
     }
 </script>
 
-<marquee behavior="alternate" style="font-family: 'Monotype Corsiva'; font-size:35px; color:darkcyan; background-color:black; font-weight:bold; margin-top:1%">
-    User Signup
-</marquee>
-<hr>
-<form class="container mt-5" onsubmit="return checkpass();" name="signup" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+<div class="py-5 bg-light min-vh-100 d-flex align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="auth-card">
+                    <div class="text-center mb-4">
+                        <span class="badge bg-info text-dark px-3 py-2 rounded-pill fw-bold mb-2">Create Account</span>
+                        <h2 class="fw-bold text-dark mb-1">Join Monumental Today</h2>
+                        <p class="text-muted small">Start exploring ancient heritage sites and reserving travel passes</p>
+                    </div>
 
-    <div class="row">
-        <div class="form-group col-md-6" >
-            <label>First Name</label>
-            <input type="text" class="form-control" name="fname" placeholder="Enter First Name" required>
-        </div>
+                    <form onsubmit="return checkpass();" name="signup" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-        <div class="form-group col-md-6" >
-            <label>Last Name</label>
-            <input type="text" class="form-control" name="lname" placeholder="Enter Last Name">
-        </div>
-    </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">First Name</label>
+                                <input type="text" class="form-control form-control-travel" name="fname" placeholder="John" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Last Name</label>
+                                <input type="text" class="form-control form-control-travel" name="lname" placeholder="Doe">
+                            </div>
+                        </div>
 
-    <div class="row">
-        <div class="form-group col-md-12" >
-            <label>Email ID:</label>
-            <input type="text" class="form-control" name="email" placeholder="Enter Email Address" required>
-        </div>
-    </div>
+                        <div class="mb-3">
+                            <label class="form-label text-dark fw-semibold small">Email Address</label>
+                            <input type="email" class="form-control form-control-travel" name="email" placeholder="john.doe@example.com" required>
+                        </div>
 
-    <div class="row">
-        <div class="form-group col-md-6" >
-            <label>Contact Number:</label>
-            <input type="text" class="form-control" name="contact" placeholder="Enter Phone Number" required>
-        </div>
-        <div class="form-group col-md-6" >
-            <label>Date of Birth:</label>
-            <input type="date" class="form-control" name="dob" required>
-        </div>
-    </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Contact Number</label>
+                                <input type="tel" class="form-control form-control-travel" name="contact" placeholder="+91 9876543210" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Date of Birth</label>
+                                <input type="date" class="form-control form-control-travel" name="dob" required>
+                            </div>
+                        </div>
 
-    <div class="row">
-        <div class="form-group col-md-6" >
-            <label>Password:</label>
-            <input type="password" class="form-control" name="pwd" placeholder="Enter Password" required>
-        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Password</label>
+                                <input type="password" class="form-control form-control-travel" name="pwd" placeholder="Choose strong password" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Confirm Password</label>
+                                <input type="password" class="form-control form-control-travel" name="cpwd" placeholder="Re-type password" required>
+                            </div>
+                        </div>
 
-        <div class="form-group col-md-6" >
-            <label>Confirm Password:</label>
-            <input type="password" class="form-control" name="cpwd" placeholder="Confirm Password" required>
-        </div>
-    </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Gender</label>
+                                <div class="d-flex gap-4 p-2 border rounded bg-light">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="genderMale" name="gender" value="Male" checked>
+                                        <label class="form-check-label text-dark" for="genderMale">Male</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="genderFemale" name="gender" value="Female">
+                                        <label class="form-check-label text-dark" for="genderFemale">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Profile Picture</label>
+                                <input type="file" class="form-control form-control-travel" name="profile_pic" accept="image/*">
+                            </div>
+                        </div>
 
-    <div class="row">
-        <div class="form-group col-md-6" >
-            <label>Gender</label>
-            <div style="border:1px solid lightgrey ; padding:6px ; border-radius:6px">
-            <div class="row">
-                <div class="col-2">
-                <input type="radio" id="customRadioInLine1" name="gender" class="custom-control-input" value="Male">
-                <label class="custom-control-label" for="customRadioInLine1">Male</label>
-            </div>
-            <div class="col-3">
-                <input type="radio" id="customRadioInLine2" name="gender" class="custom-control-input" value="Female">
-                <label class="custom-control-label" for="customRadioInLine2">Female</label>
-            </div>
+                        <button type="submit" class="btn btn-cyan w-100 py-3 mb-3 fs-6">
+                            <i class="fa-solid fa-user-plus me-2"></i> Register Account
+                        </button>
+
+                        <div class="text-center">
+                            <p class="text-muted small mb-0">Already registered? <a href="{% url 'login' %}" class="text-info fw-bold text-decoration-none">Log In Here</a></p>
+                        </div>
+                    </form>
                 </div>
-                </div>
+            </div>
         </div>
-        <div class="form-group col-md-6">
-            <label>Profile</label>
-            <input type="file" class="form-control" name="profile_pic">
-        </div>
-
-<center>
-    <input type="submit" value="Submit" class="btn btn-primary my-3" style="width:200px">
-</center>
     </div>
-</form>
-
+</div>
 
 {% if error == "no" %}
 <script>
-    alert("Signup Successfull")
-    window.location = ('{% url 'signup' %}')
+    document.addEventListener("DOMContentLoaded", function() {
+        showToast("Signup Successful! You can now log in.", "success", "{% url 'login' %}");
+    });
 </script>
 {% endif %}
 
 {% if error == "yes" %}
 <script>
-    alert("Somthing Wrong, Try Again...")
+    document.addEventListener("DOMContentLoaded", function() {
+        showToast("Something went wrong during signup. Please try again.", "error");
+    });
 </script>
 {% endif %}
 
-
+{% include 'footer.html' %}

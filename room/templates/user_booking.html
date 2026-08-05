@@ -1,49 +1,74 @@
 {% include 'user_navigation.html' %}
-<marquee style="font-family: 'Monotype Corsiva'; font-size:25px; color:darkcyan; background-color:black; font-weight:bold; margin-top:1%">
-    See Your Booking Status
-</marquee>
-<hr>
-<table class="table">
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Mobile</th>
-        <th>Booking Date</th>
-        <th>Total Ticket</th>
-        <th>No. Of Days</th>
-        <th>Price</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
-    {% for i in data %}
-    {% if i.email == user.username %}
-    <tr>
-        <td>{{i.full_name}}</td>
-        <td>{{i.email}}</td>
-        <td>{{i.contact}}<br>{{i.contact2}}</td>
-        <td>{{i.bookint_date}}</td>
-        <td align="center">{{i.gender}} Person</td>
-        <td align="center">{{i.days}}</td>
-        <td>{{i.price}}</td>
-        {% if i.status == "Pending" %}
-        <td style="color:blue;">{{i.status}}</td>
-        {% endif %}
-        {% if i.status == "Confirm" %}
-        <td><a href="" class="btn btn-success btn-sm">{{i.status}}</a></td>
-        {% endif %}
-        {% if i.status == "Canceled" %}
-        <td style="color:red;">{{i.status}}</td>
-        {% endif %}
-        <td><a href="{% url 'cancel_booking' i.id %}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm">Cancel</a></td>
-    </tr>
-    {% endif %}
-    {% endfor %}
-</table>
-{% if not data %}
-    <center>
-        <h1>
-            No Booking Found Yet
-        </h1>
-    </center>
-{% endif %}
+{% load static %}
+
+<div class="bg-dark text-white py-5 mb-5">
+    <div class="container text-center">
+        <span class="badge bg-info bg-opacity-25 text-info px-3 py-2 rounded-pill fw-bold mb-2">My Itinerary</span>
+        <h1 class="display-5 fw-extrabold">My Booking Reservations</h1>
+        <p class="text-muted">Track ticket confirmations and reservation details</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="bg-white rounded-4 shadow-sm border p-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Traveler</th>
+                        <th>Contact Email</th>
+                        <th>Phone</th>
+                        <th>Visit Date</th>
+                        <th>Tickets</th>
+                        <th>Days</th>
+                        <th>Total Paid</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                    {% if i.email == user.username %}
+                    <tr>
+                        <td class="fw-bold text-dark">{{i.full_name}}</td>
+                        <td>{{i.email}}</td>
+                        <td>{{i.contact}} {% if i.contact2 %}<br><small class="text-muted">{{i.contact2}}</small>{% endif %}</td>
+                        <td><span class="badge bg-light text-dark border">{{i.bookint_date}}</span></td>
+                        <td><span class="badge bg-info text-dark">{{i.gender}} Person</span></td>
+                        <td>{{i.days}} Day(s)</td>
+                        <td class="fw-bold text-primary">₹{{i.price}}</td>
+                        <td>
+                            {% if i.status == "Pending" %}
+                            <span class="badge bg-warning text-dark"><i class="fa-solid fa-clock me-1"></i> Pending</span>
+                            {% elif i.status == "Confirm" %}
+                            <span class="badge bg-success"><i class="fa-solid fa-circle-check me-1"></i> Confirmed</span>
+                            {% elif i.status == "Canceled" %}
+                            <span class="badge bg-danger"><i class="fa-solid fa-circle-xmark me-1"></i> Canceled</span>
+                            {% else %}
+                            <span class="badge bg-secondary">{{i.status}}</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <a href="{% url 'cancel_booking' i.id %}" onclick="return confirm('Are you sure you want to cancel this booking?')" class="btn btn-outline-danger btn-sm">
+                                <i class="fa-solid fa-xmark me-1"></i> Cancel
+                            </a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% empty %}
+                    <tr>
+                        <td colspan="9" class="text-center py-5">
+                            <i class="fa-solid fa-ticket text-muted display-4 mb-3 d-block"></i>
+                            <h4 class="fw-bold">No Bookings Found</h4>
+                            <p class="text-muted">You haven't reserved any monument tickets yet.</p>
+                            <a href="{% url 'view_room_user' %}" class="btn btn-travel-primary mt-2"><i class="fa-solid fa-compass me-1"></i> Explore Monuments</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 {% include 'footer.html' %}

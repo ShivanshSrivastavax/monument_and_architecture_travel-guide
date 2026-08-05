@@ -1,52 +1,61 @@
 {% include 'navigation.html' %}
-<marquee behavior="alternate"; style="font-family: 'Monotype Corsiva'; font-size:35px; color:darkcyan; background-color:black; font-weight:bold; margin-top:1%">
-    Contact Us
-</marquee>
+{% load static %}
 
-<form action="" method="post">
-    {% csrf_token %}
-<div class="container">
-    <br>
-    <div class="row">
-        <div class="col-12">
-            <label>Full Name:</label>
-            <input type="text" class="form-control" name="fname" placeholder="Enter Your Full Name" required>
+<div class="py-5 bg-light min-vh-100 d-flex align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="auth-card">
+                    <div class="text-center mb-4">
+                        <span class="badge bg-info bg-opacity-10 text-info px-3 py-2 rounded-pill fw-bold mb-2">Get In Touch</span>
+                        <h2 class="fw-bold text-dark mb-1">Contact Our Travel Desk</h2>
+                        <p class="text-muted small">Have questions about monument entries, tour routes, or special passes?</p>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label text-dark fw-semibold small">Full Name</label>
+                            <input type="text" class="form-control form-control-travel" name="fname" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-dark fw-semibold small">Email Address</label>
+                            <input type="email" class="form-control form-control-travel" name="email" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-dark fw-semibold small">Contact Number</label>
+                            <input type="tel" class="form-control form-control-travel" name="mobile" placeholder="Enter phone number" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-dark fw-semibold small">Message / Inquiry Purpose</label>
+                            <textarea class="form-control form-control-travel" rows="4" name="purpose" placeholder="Describe your inquiry..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-travel-primary w-100 py-3 fs-6">
+                            <i class="fa-solid fa-paper-plane me-2"></i> Submit Inquiry
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <label>Email:</label>
-            <input type="email" class="form-control" name="email" placeholder="Enter Your Email" required>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <label>Mobile:</label>
-            <input type="text" class="form-control" name="mobile" placeholder="Enter Your Contact Number" required>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <label>Purpose:</label>
-            <input type="text" class="form-control" name="purpose" placeholder="Purpose to contact..." required>
-        </div>
-    </div>
-    <center><br>
-        <input type="submit" class="btn btn-primary btn-lg">
-    </center>
 </div>
-</form>
-
 
 {% if error == "no" %}
 <script>
-    alert("Contact Detail Submitted Successfully")
-    window.location = ('{% url 'contact_us' %}')
-</script>
-{% endif %}
-{% if error == "yes" %}
-<script>
-    alert("Something Wrong, Try Again...")
+    alert("Thank you! Your message has been submitted successfully.");
+    window.location = ('{% url 'contact_us' %}');
 </script>
 {% endif %}
 
+{% if error == "yes" %}
+<script>
+    alert("Something went wrong. Please try again.");
+</script>
+{% endif %}
+
+{% include 'footer.html' %}

@@ -1,56 +1,83 @@
 {% include 'admin_navigation.html' %}
-<marquee style="font-family: 'Monotype Corsiva'; font-size:25px; color:darkcyan; background-color:black; font-weight:bold; margin-top:1%">
-    All Booking
-</marquee>
-<hr>
+{% load static %}
 
-<center class="float:right;">
-    <form method="POST" action="/searchh" class="mt-2">
-        {% csrf_token %}
-        <input type="search" name="name" placeholder="Search Booking by Email">
-        <input type="submit" class="btn btn-primary btn-sm"> | <a href="{% url 'view_booking_admin' %}" class="btn btn-secondary btn-sm">Cancel</a>
-    </form>
-</center>
-<table class="table">
-    <tr>
-        <th>S. No.</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Mobile</th>
-        <th>Booking Date</th>
-        <th>No. Of Days</th>
-        <th>Total Ticket</th>
-        <th>Price</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
-    {% for i in data %}
-    <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{i.full_name}}</td>
-        <td>{{i.email}}</td>
-        <td>{{i.contact}}</td>
-        <td>{{i.bookint_date}}</td>
-        <td align="center">{{i.days}}</td>
-        <td align="center">{{i.gender}} Person</td>
-        <td>{{i.price}}</td>
-        {% if i.status == "Pending" %}
-        <td><a href="{% url 'change_status' i.id %}">{{i.status}}</a></td>
-        {% endif %}
-        {% if i.status == "Confirm" %}
-        <td><a href="{% url 'change_status' i.id %}" style="color:green;">{{i.status}}</a></td>
-        {% endif %}
-        {% if i.status == "Canceled" %}
-        <td><a href="{% url 'change_status' i.id %}" style="color:red;">{{i.status}}</a></td>
-        {% endif %}
-        <td><a href="{% url 'delete_booking' i.id %}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm">Delete</a></td>
-    </tr>
-    {% endfor %}
-</table>
-{% if not data %}
-<center>
-    <h1>No Booking Data Found</h1>
-</center>
-{% endif %}
+<div class="bg-dark text-white py-5 mb-5">
+    <div class="container text-center">
+        <span class="badge bg-warning bg-opacity-25 text-warning px-3 py-2 rounded-pill fw-bold mb-2">Admin Dashboard</span>
+        <h1 class="display-5 fw-extrabold">All Traveler Reservations</h1>
+        <p class="text-muted">Review, approve, or delete visitor booking requests</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="bg-white rounded-4 shadow-sm border p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <h4 class="fw-bold m-0">Booking Database</h4>
+            <form method="POST" action="/searchh" class="d-flex gap-2">
+                {% csrf_token %}
+                <input type="search" name="name" class="form-control form-control-travel" placeholder="Search by Email..." required>
+                <button type="submit" class="btn btn-travel-primary px-3"><i class="fa-solid fa-search"></i></button>
+                <a href="{% url 'view_booking_admin' %}" class="btn btn-travel-outline px-3">Reset</a>
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Traveler</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Visit Date</th>
+                        <th>Days</th>
+                        <th>Tickets</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td class="fw-bold text-dark">{{i.full_name}}</td>
+                        <td>{{i.email}}</td>
+                        <td>{{i.contact}}</td>
+                        <td><span class="badge bg-light text-dark border">{{i.bookint_date}}</span></td>
+                        <td>{{i.days}} Day(s)</td>
+                        <td><span class="badge bg-info text-dark">{{i.gender}} Person</span></td>
+                        <td class="fw-bold text-primary">₹{{i.price}}</td>
+                        <td>
+                            {% if i.status == "Pending" %}
+                            <a href="{% url 'change_status' i.id %}" class="badge bg-warning text-dark text-decoration-none py-2 px-3"><i class="fa-solid fa-clock me-1"></i> Pending</a>
+                            {% elif i.status == "Confirm" %}
+                            <a href="{% url 'change_status' i.id %}" class="badge bg-success text-decoration-none py-2 px-3"><i class="fa-solid fa-circle-check me-1"></i> Confirmed</a>
+                            {% elif i.status == "Canceled" %}
+                            <a href="{% url 'change_status' i.id %}" class="badge bg-danger text-decoration-none py-2 px-3"><i class="fa-solid fa-circle-xmark me-1"></i> Canceled</a>
+                            {% else %}
+                            <a href="{% url 'change_status' i.id %}" class="badge bg-secondary text-decoration-none py-2 px-3">{{i.status}}</a>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <a href="{% url 'delete_booking' i.id %}" onclick="return confirm('Are you sure you want to delete this booking entry?')" class="btn btn-outline-danger btn-sm">
+                                <i class="fa-solid fa-trash me-1"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="10" class="text-center py-5">
+                            <i class="fa-solid fa-folder-open text-muted display-4 mb-3 d-block"></i>
+                            <h4 class="fw-bold">No Bookings Found</h4>
+                            <p class="text-muted">There are currently no travel bookings in the system.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 {% include 'footer.html' %}

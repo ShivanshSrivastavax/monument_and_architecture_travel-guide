@@ -1,82 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<title></title>
-{% load static %}
-	<style>
-	.pic{
-		height: 200px;
-		width: 100%;
-	}
-	.lab1{
-		font-size: 40px;
-		font-weight: bold;
-		font-family: calibery;
-		margin-top: 52px;
-	}
-	.itag{
-		font-size: 40px;
-		margin-top: 60px;
-		padding-left: 20px;
-	}
-	.navi{
-		background:cyan;
-		height: 50px;
-	}
-	.ull{
-		float: right;
-	}
-	.lii{
-		display: inline-block;
-		margin-top: 10px;
-	}
-	.aaa{
-		text-decoration: none;
-		color: black;
-		font-weight: bold;
-		font-size: 20px;
-		margin-right: 20px;
-	}
-	.aaa:hover{
-		background:yellow;
-		box-shadow: 0 0 5px 11px yellow;
-		border-radius: 20px;
-	}
-	.lab2{
-		font-size: 30px;
-		font-weight: bold;
-		font-family: calibery;
-		margin-left: 20px;
-	}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monument & Architecture Travel Guide</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-<div class="row">
-	<div class="col-4">
-		<img class="pic" src="{% static 'images/b1.jpg' %}">
-	</div>
-	<div class="col-6 aa">
-		<label class="lab1"><center>Monument & Architecture Travel Guide</center></label>
-	</div>
-	<div class="col-2">
-		<a href="https://web.whatsapp.com/" target="_blank"><i class="fab fa-whatsapp itag" style="color:rgb(0,255,0);"></i></a>
-		<a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram itag" style="color:red;"></i></a>
-		<a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f itag" style="color: blue;"></i></a>
-	</div>
-</div>
-<nav class="navi">
-	<label class="lab2">Welcome</label>
-	<ul class="ull">
-		<li class="lii"><a class="aaa" href="{% url 'index' %}">Home</a></li>
-		<li class="lii"><a class="aaa" href="#down">About Us</a></li>
-		<li class="lii"><a class="aaa" href="{% url 'contact_us' %}">Contact Us</a></li>
-		<li class="lii"><a class="aaa" href="{% url 'login' %}">Login</a></li>
-		<li class="lii"><a class="aaa" href="{% url 'signup' %}">Signup</a></li>
-	</ul>
-</nav>
-</nav>
-</body>
-</html>
 
+<!-- Top-Right Corner Toast Container -->
+<div id="toast-container"></div>
+
+<!-- Header Banner with Image & Branding -->
+<div class="header-top">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-3 text-center text-md-start mb-2 mb-md-0">
+                <img src="{% static 'images/b1.jpg' %}" alt="Monument Guide Banner" class="img-fluid rounded shadow-sm" style="max-height: 90px; width: 100%; object-fit: cover;">
+            </div>
+            <div class="col-md-7 text-center">
+                <h1 class="brand-banner-title">Monument & Architecture Travel Guide</h1>
+            </div>
+            <div class="col-md-2 text-center text-md-end">
+                <a href="https://web.whatsapp.com/" target="_blank"><i class="fab fa-whatsapp social-icon-header" style="color: #25d366;"></i></a>
+                <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram social-icon-header" style="color: #e1306c;"></i></a>
+                <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook-f social-icon-header" style="color: #1877f2;"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Classic Cyan Navbar -->
+<nav class="navbar navbar-expand-lg classic-navbar sticky-top">
+    <div class="container">
+        <span class="welcome-label"><i class="fa-solid fa-compass me-2"></i> Welcome</span>
+        <button class="navbar-toggler border-2 border-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarClassic" aria-controls="navbarClassic" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarClassic">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                <li class="nav-item">
+                    <a class="classic-nav-link active" href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="classic-nav-link" href="{% url 'index' %}#down">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="classic-nav-link" href="{% url 'contact_us' %}">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="classic-nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="classic-nav-link" href="{% url 'signup' %}">Signup</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Toast Helper Script -->
+<script>
+    function showToast(message, type = 'info', redirectUrl = null) {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.className = `toast-popup toast-${type}`;
+        
+        let icon = type === 'success' ? 'fa-check-circle text-success' : (type === 'error' ? 'fa-exclamation-circle text-danger' : 'fa-info-circle text-info');
+        
+        toast.innerHTML = `
+            <div class="d-flex align-items-center gap-2">
+                <i class="fa-solid ${icon} fs-5"></i>
+                <span>${message}</span>
+            </div>
+            <button type="button" class="toast-close-btn" onclick="this.parentElement.remove()">&times;</button>
+        `;
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            if (redirectUrl) {
+                window.location = redirectUrl;
+            } else {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.4s ease';
+                setTimeout(() => toast.remove(), 400);
+            }
+        }, 2200);
+    }
+</script>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

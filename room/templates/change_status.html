@@ -1,32 +1,57 @@
 {% include 'admin_navigation.html' %}
+{% load static %}
 
-<marquee behavior="alternate" style="font-family: 'Monotype Corsiva'; font-size:25px; color:darkcyan; background-color:black; font-weight:bold; margin-top:1%">
-        Manage Booking Status
-</marquee>
-<hr>
+<div class="py-5 bg-light min-vh-100 d-flex align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="auth-card">
+                    <div class="text-center mb-4">
+                        <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill fw-bold mb-2">Admin Approval</span>
+                        <h2 class="fw-bold text-dark mb-1">Update Booking Status</h2>
+                        <p class="text-muted small">Manage confirmation for <strong>{{data.full_name}}</strong></p>
+                    </div>
 
-<form class="container mt-5" method="post">
-    {% csrf_token %}
-    <label><b>Customer Name:</b></label>
-    <input type="text" class="form-control" name="uname" value="{{data.full_name}}">
-    <label><b>Status:</b></label>
-    <select class="form-control" name="rstatus">
-         <option value="Confirm">Confirm</option>
-        <option value="Canceled">Cancel</option>
-    </select>
+                    <form method="post">
+                        {% csrf_token %}
 
-    <input type="submit" class="btn btn-primary" style="margin-top:2%; color:darkcyan; background-color:black ; height:50px; font-size:25px">
-</form>
+                        <div class="mb-3">
+                            <label class="form-label text-dark fw-semibold small">Traveler Name</label>
+                            <input type="text" class="form-control form-control-travel" name="uname" value="{{data.full_name}}" readonly>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-dark fw-semibold small">Booking Status</label>
+                            <select class="form-select form-control-travel" name="rstatus">
+                                <option value="Confirm">Confirm Booking</option>
+                                <option value="Canceled">Cancel Booking</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-travel-primary w-100 py-3 fs-6">
+                                <i class="fa-solid fa-check-double me-2"></i> Save Status
+                            </button>
+                            <a href="{% url 'view_booking_admin' %}" class="btn btn-travel-outline py-3 px-4">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% if error == "no" %}
 <script>
-    alert("Status Changed Successfully")
-    window.location = ('{% url 'view_booking_admin' %}')
+    alert("Booking Status Updated Successfully!");
+    window.location = ('{% url 'view_booking_admin' %}');
 </script>
 {% endif %}
 
 {% if error == "yes" %}
 <script>
-    alert("Something went wrong, Try Again")
+    alert("Something went wrong. Please try again.");
 </script>
 {% endif %}
 
+{% include 'footer.html' %}

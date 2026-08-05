@@ -1,105 +1,97 @@
-<head>
-    <title></title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
+{% include 'user_navigation.html' %}
+{% load static %}
 
+<div class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="auth-card">
+                    <div class="text-center mb-4">
+                        {% if data2.image %}
+                        <img src="{{data2.image.url}}" alt="Profile Avatar" width="110" height="110" class="rounded-circle object-fit-cover border border-4 border-info shadow mb-3">
+                        {% else %}
+                        <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center fw-bold display-6 mb-3 shadow" style="width: 110px; height: 110px;">
+                            {{request.user.first_name|first|upper}}
+                        </div>
+                        {% endif %}
+                        <h3 class="fw-bold text-dark mb-1">My Traveler Profile</h3>
+                        <p class="text-muted small">Update your personal details and avatar</p>
+                    </div>
 
-<marquee behavior="alternate"; style="font-family: 'Monotype Corsiva'; font-size:35px; color:darkcyan; background-color:black; font-weight:bold; margin-top:1%">
-    My Profile
-</marquee>
-<hr>
-<form class="container mt-5" onsubmit="return checkpass();" name="signup" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-        <div class="text-center">
-            <img src="{{data2.image.url}}"  style="border:7px solid green; width:35%; height:40% ; border-radius:50%">
-        </div>
-    <div class="form-row">
-        <div class="form-group col-md-6" >
-            <label>First Name</label>
-            <input type="text" class="form-control" name="fname" value="{{request.user.first_name}}" required>
-        </div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-        <div class="form-group col-md-6" >
-            <label>Last Name</label>
-            <input type="text" class="form-control" name="lname" value="{{request.user.last_name}}">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">First Name</label>
+                                <input type="text" class="form-control form-control-travel" name="fname" value="{{request.user.first_name}}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Last Name</label>
+                                <input type="text" class="form-control form-control-travel" name="lname" value="{{request.user.last_name}}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-dark fw-semibold small">Username / Email</label>
+                            <input type="text" class="form-control form-control-travel" name="email" value="{{request.user.username}}" readonly>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Contact Number</label>
+                                <input type="tel" class="form-control form-control-travel" name="contact" value="{{data2.mobile}}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Update Profile Picture</label>
+                                <input type="file" class="form-control form-control-travel" name="image" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Gender</label>
+                                <div class="d-flex gap-4 p-2 border rounded bg-light">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="gMale" name="gender" value="Male" {% if data2.gender == "Male" %}checked{% endif %}>
+                                        <label class="form-check-label text-dark" for="gMale">Male</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="gFemale" name="gender" value="Female" {% if data2.gender == "Female" %}checked{% endif %}>
+                                        <label class="form-check-label text-dark" for="gFemale">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark fw-semibold small">Date of Birth</label>
+                                <input type="text" class="form-control form-control-travel" name="dob" value="{{data2.dob}}" required>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-travel-primary w-100 py-3 fs-6">
+                                <i class="fa-solid fa-floppy-disk me-2"></i> Save Changes
+                            </button>
+                            <a href="{% url 'user_home' %}" class="btn btn-travel-outline py-3 px-4">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-12" >
-            <label>Email ID:</label>
-            <input type="text" class="form-control" name="email" value="{{request.user.username}}" readonly>
-        </div>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-6" >
-            <label>Contact Number:</label>
-            <input type="text" class="form-control" name="contact" value="{{data2.mobile}}" required>
-        </div>
-        <div class="form-group col-md-6" >
-            <label>Change Profile Picture</label>
-            <input type="file" class="form-control" name="image" >
-        </div>
-    </div>
-
-    <div class="form-row">
-
-        <div class="form-group col-md-6" >
-            <label>Gender</label>
-            {% if data2.gender == "Male" %}
-            <div style="border:1px solid lightgrey ; padding:6px ; border-radius:6px">
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="customRadioInLine1" name="gender" checked class="custom-control-input" value="Male">
-                <label class="custom-control-label" for="customRadioInLine1">Male</label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="customRadioInLine2" name="gender" class="custom-control-input" value="Female">
-                <label class="custom-control-label" for="customRadioInLine2">Female</label>
-            </div>
-            </div>
-
-            {% else %}
-            <div style="border:1px solid lightgrey ; padding:6px ; border-radius:6px">
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="customRadioInLine1" name="gender" checked class="custom-control-input" value="Male">
-                <label class="custom-control-label" for="customRadioInLine1">Male</label>
-            </div>
-            <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" checked id="customRadioInLine2" name="gender" class="custom-control-input" value="Female">
-                <label class="custom-control-label" for="customRadioInLine2">Female</label>
-            </div>
-            </div>
-            {% endif %}
-        </div>
-        <div class="form-group col-md-6" >
-            <label>DOB:</label>
-            <input type="text" class="form-control" name="dob" value="{{data2.dob}}" required>
-        </div>
-    </div>
- <center>
-
-    <input type="submit" value="Update Profile" class="btn btn-primary my-3" style="width:200px">
-     <a href="{% url 'user_home' %}" class="btn btn-dark">Cancel</a>
- </center>
-</form>
-
+</div>
 
 {% if error == "no" %}
 <script>
-    alert("Profile Updated Successfully")
-    window.location = ('{% url 'user_home' %}')
+    alert("Profile Updated Successfully!");
+    window.location = ('{% url 'user_home' %}');
 </script>
 {% endif %}
 
 {% if error == "yes" %}
 <script>
-    alert("Something Wrong, Try Again...")
+    alert("Something went wrong. Please try again.");
 </script>
 {% endif %}
+
+{% include 'footer.html' %}
