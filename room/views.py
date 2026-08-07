@@ -318,3 +318,6 @@ def more_detail(request,id):
     d = {'data':data}
     return render(request,'more_detail.html',d)
 
+
+
+
